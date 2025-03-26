@@ -42,7 +42,9 @@ class ApartmentType(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} -  {self.country}"
+
+
 
     class Meta:
         verbose_name = 'Apartment Type'

@@ -9,7 +9,7 @@ from datetime import datetime
 def homepageapp(request):
     user_country = request.session.get('user_country', 'US')  # Default to 'US' if not found
 
-    get_all_available_apartment = ApartmentType.objects.filter(availability_status=True)
+    get_all_available_apartment = ApartmentType.objects.filter(availability_status=True, country=user_country)
     page = "RestScene" + ' | Home'
 
     context = {
