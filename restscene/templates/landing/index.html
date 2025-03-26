@@ -14,40 +14,47 @@
 					</div>
 					<div class="col-md-6">
 						<div class="book-form inn-com-form">
-							<form class="col s12">
+							<form class="col s12" method="POST" id="booking-form">
+								 {% csrf_token %}
 								<div class="row">
 									<div class="input-field col s6">
-										<input type="text" class="validate">
-										<label>Full Name</label>
+										<input type="text" id="full_name" class="validate">
+										<label for ="full_name">Full Name</label>
 									</div>
 									<div class="input-field col s6">
-										<input type="text" class="validate">
-										<label>Email</label>
+										<input type="text" id="email" class="validate">
+										<label for ="email">Email</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s6">
-										<input type="text" class="validate">
-										<label>Phone</label>
+										<input type="text" id="phone" class="validate">
+										<label for="phone">Phone</label>
 									</div>
 									<div class="input-field col s6">
-										<input type="text" class="validate">
-										<label>Mobile</label>
-									</div>
-								</div>
-								<div class="row">
-									<div class="input-field col s6">
-										<input type="text" class="validate">
-										<label>City</label>
-									</div>
-									<div class="input-field col s6">
-										<input type="text" class="validate">
-										<label>Country</label>
+										<input type="text" id="mobile" class="validate">
+										<label for="mobile" >Mobile</label>
 									</div>
 								</div>
 								<div class="row">
 									<div class="input-field col s6">
-										<select>
+										<input type="text" name="city" id="city" class="validate">
+										<label for="city">City</label>
+									</div>
+									<div class="input-field col s6">
+										            <select name="country" id="country">
+                <option value="" disabled selected>Select your Country</option>
+                {% for code, country in country_choices %}
+                    <option value="{{ code }}">{{ country }}</option>
+                {% endfor %}
+            </select>
+
+
+									</div>
+								</div>
+								<div class="row">
+									<div class="input-field col s6">
+										<select name="adults" id="adults">
 											<option value="" disabled selected>No of adults</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -56,7 +63,7 @@
 										</select>
 									</div>
 									<div class="input-field col s6">
-										<select>
+										<select name="children" id="children" >
 											<option value="" disabled selected>No of childrens</option>
 											<option value="1">1</option>
 											<option value="2">2</option>
@@ -75,9 +82,20 @@
 										<label for="to">Check Out</label>
 									</div>
 								</div>
+								 <div class="row">
+        <div class="input-field col s12">
+            <select name="apartment_type" id="apartment_type">
+                <option value="" disabled selected>Select Accommodation</option>
+                {% for apartment in apartment_types %}
+                    <option value="{{ apartment.id }}">{{ apartment.name }}</option>
+                {% endfor %}
+            </select>
+<!--            <label>Accommodation</label>-->
+        </div>
+    </div>
 								<div class="row">
 									<div class="input-field col s12">
-										<textarea id="textarea1" class="materialize-textarea" data-length="120"></textarea>
+										<textarea id="message" class="materialize-textarea" data-length="120"></textarea>
 										<label>Message</label>
 									</div>
 								</div>
@@ -85,9 +103,12 @@
 									<div class="input-field col s12">
 										<input type="submit" value="submit" class="form-btn"> </div>
 								</div>
+ <div id="response-message"></div>
 							</form>
 						</div>
 					</div>
+
+
 					<!--END TYPOGRAPHY SECTION-->
 				</div>
 			</div>
@@ -456,4 +477,57 @@
 				</div>
 			</div>
 		</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#booking-form');
+    const submitButton = form.querySelector('.form-btn');
+    const submitButtonText = submitButton.value; // Save the original button text
+    const messageArea = document.getElementById('response-message'); // For displaying success or error messages
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Disable the submit button and show "Submitting..."
+        submitButton.disabled = true;
+        submitButton.value = 'Submitting...';
+
+        // Get CSRF token value from the form
+        const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+
+        // Create a FormData object to easily get form data
+        const formData = new FormData(form);
+
+        // Add CSRF token to the request headers
+        const headers = new Headers();
+        headers.append('X-CSRFToken', csrfToken);
+		const bookingUrl = "{% url 'book_reservation' %}";
+        // Use Fetch API to send data via POST
+        fetch(bookingUrl, {  // Change to your Django view URL
+            method: 'POST',
+            body: formData,
+            headers: headers  // Send the CSRF token with the request
+        })
+        .then(response => response.json()) // Assuming the response is in JSON format
+        .then(data => {
+            if (data.success) {
+                messageArea.innerHTML = '<p class="alert alert-success">Booking successfully submitted!</p>';
+                form.reset();  // Reset the form if needed
+            } else {
+                messageArea.innerHTML = `<p class="alert alert-danger">${data.error}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            messageArea.innerHTML = '<p class="alert alert-danger">Something went wrong. Please try again later.</p>';
+        })
+        .finally(() => {
+            // Re-enable the submit button and reset text
+            submitButton.disabled = false;
+            submitButton.value = submitButtonText;
+        });
+    });
+});
+</script>
+
 {% endblock %}
+

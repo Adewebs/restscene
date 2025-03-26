@@ -1,16 +1,18 @@
 from django.db import models
 from auth_app.models import UserInfo
+from django.conf import settings
 
+COUNTRY_CHOICES = settings.COUNTRY_CHOICES
 class ApartmentType(models.Model):
 
     APARTMENT_CHOICES = [
-        ('featured', 'Featured'),
-        ('master_suite', 'Master Suite'),
-        ('mini_suite', 'Mini Suite'),
-        ('ultra_deluxe', 'Ultra Deluxe'),
-        ('luxury_room', 'Luxury Room'),
-        ('premium_room', 'Premium Room'),
-        ('normal_room', 'Normal Room'),
+        ('Featured', 'featured'),
+        ('Master Suite', 'Master Suite'),
+        ('Mini Suite', 'Mini Suite'),
+        ('Ultra Deluxe', 'Ultra Deluxe'),
+        ('Luxury Room', 'Luxury Room'),
+        ('Premium Room', 'Premium Room'),
+        ('Normal Room', 'Normal Room'),
     ]
 
     name = models.CharField(max_length=100, choices=APARTMENT_CHOICES, default="featured")
@@ -18,6 +20,8 @@ class ApartmentType(models.Model):
     description = models.TextField(null=True,blank=True)
     rating = models.DecimalField(max_digits=3, decimal_places=2, default=0)  # Rating out of 5
     max_adults = models.IntegerField(default=1)
+    city =models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=3,choices=COUNTRY_CHOICES,blank=True,null=True)
     max_children = models.IntegerField(default=0)
     iron_facilities = models.BooleanField(default=False)
     tea_coffee_maker = models.BooleanField(default=False)
@@ -55,6 +59,7 @@ class ApartmentMedia(models.Model):
 
 
 class Booking(models.Model):
+
     """Model for user bookings."""
     guest = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
     apartment_type = models.ForeignKey(ApartmentType, on_delete=models.CASCADE)
@@ -63,6 +68,15 @@ class Booking(models.Model):
     checkin_out_date = models.DateTimeField()
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     is_paid = models.BooleanField(default=False)
+    full_name = models.CharField(max_length=255, blank=True, null=True)
+    email = models.EmailField(max_length=255, blank=True, null=True)
+    phone = models.CharField(max_length=255, blank=True, null=True)
+    mobile = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
+    country = models.CharField(max_length=3,choices=COUNTRY_CHOICES,blank=True,null=True)
+    adults = models.IntegerField(default=0)
+    children = models.IntegerField(default=0)
+    message = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"Booking by {self.guest} for {self.apartment_type.name}"

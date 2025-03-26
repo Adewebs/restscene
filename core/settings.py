@@ -120,3 +120,14 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+COUNTRY_CHOICES = [
+        ("NG", "Nigeria"),
+        ("GH", "Ghana"),
+        ("KE", "Kenya"),
+        ("ZA", "South Africa"),
+        ("UG", "Uganda"),
+        ("US", "USA"),
+        ("GB", "UK"),
+        ("CA", "Canada"),
+        ("AE", "UAE"),
+    ]
