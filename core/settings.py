@@ -34,6 +34,7 @@ AUTH_USER_MODEL='auth_app.UserInfo'
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'auth_app.middleware.GeoIPMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -131,3 +132,28 @@ COUNTRY_CHOICES = [
         ("CA", "Canada"),
         ("AE", "UAE"),
     ]
+
+CURRENCY_CHOICES = [
+    ("NGN", "Nigerian Naira (₦)"),
+    ("GHS", "Ghanaian Cedi (₵)"),
+    ("KES", "Kenyan Shilling (KSh)"),
+    ("ZAR", "South African Rand (R)"),
+    ("UGX", "Ugandan Shilling (USh)"),
+    ("USD", "US Dollar ($)"),
+    ("GBP", "British Pound (£)"),
+    ("CAD", "Canadian Dollar (C$)"),
+    ("AED", "United Arab Emirates Dirham (د.إ)"),
+
+]
+
+COUNTRY_CURRENCY_MAPPING = {
+    'NG': 'NGN',  # Nigeria -> Nigerian Naira (₦)
+    'GH': 'GHS',  # Ghana -> Ghanaian Cedi (₵)
+    'KE': 'KES',  # Kenya -> Kenyan Shilling (KSh)
+    'ZA': 'ZAR',  # South Africa -> South African Rand (R)
+    'UG': 'UGX',  # Uganda -> Ugandan Shilling (USh)
+    'US': 'USD',  # USA -> US Dollar ($)
+    'GB': 'GBP',  # UK -> British Pound (£)
+    'CA': 'CAD',  # Canada -> Canadian Dollar (C$)
+    'AE': 'AED',  # UAE -> United Arab Emirates Dirham (د.إ)
+}

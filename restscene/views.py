@@ -7,6 +7,8 @@ from datetime import datetime
 
 
 def homepageapp(request):
+    user_country = request.session.get('user_country', 'US')  # Default to 'US' if not found
+
     get_all_available_apartment = ApartmentType.objects.filter(availability_status=True)
     page = "RestScene" + ' | Home'
 
@@ -14,6 +16,7 @@ def homepageapp(request):
                 'pagetitle': page,
                 "apartment_types":get_all_available_apartment,
         'country_choices': settings.COUNTRY_CHOICES,
+        'user_country': user_country,
     }
     return render(request, 'landing/index.html', context)
 

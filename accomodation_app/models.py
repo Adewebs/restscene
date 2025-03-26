@@ -3,6 +3,7 @@ from auth_app.models import UserInfo
 from django.conf import settings
 
 COUNTRY_CHOICES = settings.COUNTRY_CHOICES
+CURRENCY_CHOICES = settings.CURRENCY_CHOICES
 class ApartmentType(models.Model):
 
     APARTMENT_CHOICES = [
@@ -32,7 +33,13 @@ class ApartmentType(models.Model):
     price_range_end = models.DecimalField(max_digits=10, decimal_places=2)
     refundable = models.BooleanField(default=True)
     availability_status = models.BooleanField(default=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, blank=True, null=True)
+    def save(self, *args, **kwargs):
+        # Automatically set the currency based on the selected country
+        if self.country and not self.currency:  # Only set currency if it's not already set
+            self.currency = settings.COUNTRY_CURRENCY_MAPPING.get(self.country)
 
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -77,6 +84,14 @@ class Booking(models.Model):
     adults = models.IntegerField(default=0)
     children = models.IntegerField(default=0)
     message = models.CharField(max_length=255, blank=True, null=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # Automatically set the currency based on the selected country
+        if self.country and not self.currency:  # Only set currency if it's not already set
+            self.currency = settings.COUNTRY_CURRENCY_MAPPING.get(self.country)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Booking by {self.guest} for {self.apartment_type.name}"
