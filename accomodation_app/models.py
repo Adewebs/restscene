@@ -101,3 +101,11 @@ class Booking(models.Model):
     class Meta:
         verbose_name = 'Booking'
         verbose_name_plural = 'Bookings'
+
+
+class ApartmentReviews(models.Model):
+    reviewer = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    apartment_type = models.ForeignKey(ApartmentType, on_delete=models.CASCADE)
+    reviewer_comment = models.CharField(max_length=755,blank=True,null=True)
+    reviewers_down_rate = models.IntegerField(default=0)
+    reviewers_up_rating = models.IntegerField(default=0)

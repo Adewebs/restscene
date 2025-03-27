@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ApartmentType, Booking,ApartmentMedia
+from .models import ApartmentType, Booking,ApartmentMedia,ApartmentReviews
 
 class ApartmentMediaInline(admin.TabularInline):
     model = ApartmentMedia
@@ -11,3 +11,4 @@ class ApartmentTypeAdmin(admin.ModelAdmin):
 admin.site.register(ApartmentType, ApartmentTypeAdmin)
 admin.site.register(ApartmentMedia)
 admin.site.register(Booking)
+admin.site.register(ApartmentReviews)

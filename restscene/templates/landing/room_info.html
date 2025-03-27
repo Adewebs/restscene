@@ -1,0 +1,435 @@
+{% extends 'landing/base.html' %}
+{% load static %}
+{% block body %}
+
+<body data-ng-app="">
+
+	<section>
+		<!--TOP SECTION-->
+		<div class="menu-section">
+			<div class="container">
+
+
+			</div>
+		</div>
+		<!--TOP SECTION-->
+		<div class="hp-view">
+			<iframe src="https://www.google.com/maps/embed?pb=!1m0!4v1497026654798!6m8!1m7!1sIId_fF3cldIAAAQ7LuSTng!2m2!1d5.553927350344909!2d-0.2005543181775732!3f189.99!4f0!5f0.7820865974627469" allowfullscreen=""></iframe>
+		</div>
+		<!--END HOTEL ROOMS-->
+		<!--CHECK AVAILABILITY FORM-->
+		<div class="check-available">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="inn-com-form">
+							<form class="col s12" method="POST" id="booking-form">
+								{% csrf_token %}
+								<div class="row">
+									<div class="col s12 avail-title">
+										<h4>Book Accomadation</h4> </div>
+								</div>
+								<div class="row">
+									<div class="input-field col s12 m4 l2">
+										<select name="apartment_type" id="apartment_type">
+
+											<option value="{{ apartment_information.id }}">{{ apartment_information.name }}</option>
+
+										</select>
+									</div>
+									<div class="input-field col s12 m4 l2">
+
+											<select name="adults" id="adults">
+											<option value="" disabled selected>No of adults</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="1">4</option>
+										</select>
+									</div>
+									<div class="input-field col s12 m4 l2">
+										<select name="children" id="children" >
+											<option value="" disabled selected>No of childrens</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="1">4</option>
+										</select>
+									</div>
+									<div class="input-field col s12 m4 l2">
+										<input type="text" id="from" name="from">
+										<label for="from">Arrival Date</label>
+									</div>
+									<div class="input-field col s12 m4 l2">
+										<input type="text" id="to" name="to">
+										<label for="to">Departure Date</label>
+									</div>
+									<div class="input-field col s12 m4 l2">
+										<input type="submit" value="submit" class="form-btn"> </div>
+								</div>
+							</form>
+							 <div id="response-message"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--END CHECK AVAILABILITY FORM-->
+		<div class="hom-com hom-com-block">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8">
+						<div class="row">
+							<div class="hp-section">
+								<div class="hp-sub-tit hp-sub-tit-block">
+									<h4><span>Room Type: </span>{{ apartment_information.name }}</h4>
+									<p>City: {{ apartment_information.city }}</p>
+								</div>
+								<div class="hp-amini">
+
+									<p>{{ apartment_information.name }}</p>
+								</div>
+							</div>
+							<div class="hp-section">
+								<div class="hp-sub-tit hp-sub-tit-block">
+									<h4><span>Accomodation</span> Amenities</h4>
+									<p>Following are the basic amenities avaialbe in this space  </p>
+								</div>
+								<div class="hp-amini hp-amini-block">
+									<ul>
+    {% if apartment_information.iron_facilities %}
+        <li><img src="{% static 'home/images/icon/a1.png' %}" alt=""> Iron Facility</li>
+    {% endif %}
+
+    {% if apartment_information.tea_coffee_maker %}
+        <li><img src="{% static 'home/images/icon/a9.png' %}" alt=""> Coffee Maker</li>
+    {% endif %}
+
+    {% if apartment_information.air_conditioning %}
+        <li><img src="{% static 'home/images/icon/a7.png' %}" alt=""> Air Conditioning</li>
+    {% endif %}
+
+    {% if apartment_information.flat_screen_tv %}
+        <li><img src="{% static 'home/images/icon/a10.png' %}" alt=""> Recreation Facility</li>
+    {% endif %}
+
+    {% if apartment_information.wake_up_service %}
+        <li><img src="{% static 'home/images/icon/a12.png' %}" alt=""> Wake-up Service</li>
+    {% endif %}
+
+    {% if apartment_information.free_parking %}
+        <li><img src="{% static 'home/images/icon/a5.png' %}" alt=""> Free parking on premises</li>
+    {% endif %}
+</ul>
+
+								</div>
+							</div>
+							<div class="hp-section">
+								<div class="hp-sub-tit hp-sub-tit-block">
+									<h4><span>Accomodation</span> Overview</h4>
+									<p>Following is the quick summary of this accomodation.</p>
+								</div>
+								<div class="hp-over">
+									<ul class="nav nav-tabs hp-over-nav hp-over-nav-block">
+
+										<li>
+											<a data-toggle="tab" href="#menu1"><img src="images/icon/a8.png" alt=""> <span class="tab-hide">Overview</span>
+											</a>
+										</li>
+
+
+									</ul>
+									<div class="tab-content">
+
+										<div id="menu1" class="tab-pane fade in active tab-space">
+											<div class="hp-main-overview hp-main-overview-block">
+												<ul>
+													<li>Occupancy: <span>Max four Persons</span>
+													</li>
+													<li>Size : <span>800 sq. feet</span>
+													</li>
+													<li>View : <span>Sea or Garden view</span>
+													</li>
+													<li>Room Service : <span>Available per request</span>
+													</li>
+													<li>Terraces : <span>Balcony</span>
+													</li>
+													<li>Free Pickup Facility : <span>Yes</span>
+													</li>
+													<li>Internet Free <span>Yes</span>
+													</li>
+													<li>Gym : <span class="ov-yes">Yes</span>
+													</li>
+												</ul>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div class="hp-section">
+								<div class="hp-sub-tit hp-sub-tit-block">
+									<h4><span>Photo Gallery</span> {{ apartment_information.name }}</h4>
+									<p>Media view of this accomodation</p>
+								</div>
+								<div class="">
+									<div class="h-gal">
+    <ul>
+        {% if media_element %}
+            <!-- If the apartment has media, loop through the media items -->
+            {% for media in media_element %}
+                {% if media.media_type == 'image' %}
+                    <li>
+                        <img class="materialboxed" data-caption="{{ media.description }}" src="{{ media.media_file.url }}" alt="">
+                    </li>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <!-- If no media exists, use the fallback images -->
+            <li><img class="materialboxed" data-caption="Hotel Captions" src="{% static 'home/images/room/1.jpg' %}" alt=""></li>
+            <li><img class="materialboxed" data-caption="Hotel Captions" src="{% static 'home/images/room/2.jpg' %}" alt=""></li>
+            <li><img class="materialboxed" data-caption="Hotel Captions" src="{% static 'home/images/room/3.jpg' %}" alt=""></li>
+            <li><img class="materialboxed" data-caption="Hotel Captions" src="{% static 'home/images/room/4.jpg' %}" alt=""></li>
+            <li><img class="materialboxed" data-caption="Hotel Captions" src="{% static 'home/images/room/5.jpg' %}" alt=""></li>
+            <li><img class="materialboxed" data-caption="Hotel Captions" src="{% static 'home/images/room/6.jpg' %}" alt=""></li>
+        {% endif %}
+    </ul>
+</div>
+
+								</div>
+							</div>
+							<div class="hp-section">
+								<div class="hp-sub-tit hp-sub-tit-block">
+									<h4><span>Ratings</span> Suite Room</h4>
+									<p>Aliquam id tempor sem. Cras molestie risus et lobortis congue. Donec id est consectetur, cursus tellus at, mattis lacus.</p>
+								</div>
+								<div class="hp-review">
+									<div class="hp-review-left">
+										<div class="hp-review-left-1">
+											<div class="hp-review-left-11">Excellent</div>
+											<div class="hp-review-left-12">
+												<div class="hp-review-left-13"></div>
+											</div>
+										</div>
+										<div class="hp-review-left-1">
+											<div class="hp-review-left-11">Good</div>
+											<div class="hp-review-left-12">
+												<div class="hp-review-left-13 hp-review-left-Good"></div>
+											</div>
+										</div>
+										<div class="hp-review-left-1">
+											<div class="hp-review-left-11">Satisfactory</div>
+											<div class="hp-review-left-12">
+												<div class="hp-review-left-13 hp-review-left-satis"></div>
+											</div>
+										</div>
+										<div class="hp-review-left-1">
+											<div class="hp-review-left-11">Below Average</div>
+											<div class="hp-review-left-12">
+												<div class="hp-review-left-13 hp-review-left-below"></div>
+											</div>
+										</div>
+										<div class="hp-review-left-1">
+											<div class="hp-review-left-11">Below Average</div>
+											<div class="hp-review-left-12">
+												<div class="hp-review-left-13 hp-review-left-poor"></div>
+											</div>
+										</div>
+									</div>
+									<div class="hp-review-right">
+										<h5>Overall Ratings</h5>
+										<p><span>4.5 <i class="fa fa-star" aria-hidden="true"></i></span> based on 242 reviews</p>
+									</div>
+								</div>
+							</div>
+							<div class="hp-section">
+								<div class="hp-sub-tit hp-sub-tit-block">
+									<h4><span>USER</span> REVIEWS</h4>
+									<p>Aliquam id tempor sem. Cras molestie risus et lobortis congue. Donec id est consectetur, cursus tellus at, mattis lacus.</p>
+								</div>
+								<div class="lp-ur-all-rat lp-ur-all-rat-block">
+									<ul>
+										<li>
+											<div class="lr-user-wr-img"> <img src="images/users/2.png" alt=""> </div>
+											<div class="lr-user-wr-con lr-user-wr-con-block">
+												<h6>Jacob Michael <span>4.5 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">19th January, 2017</span>
+												<p>Good service... nice and clean rooms... very good spread of buffet and friendly staffs. Located in heart of city and easy to reach any places in a short distance. </p>
+												<ul>
+													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+												</ul>
+											</div>
+										</li>
+										<li>
+											<div class="lr-user-wr-img"> <img src="images/users/3.png" alt=""> </div>
+											<div class="lr-user-wr-con lr-user-wr-con-block">
+												<h6>Gabriel Elijah <span>5.0 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th July, 2016</span>
+												<p>The hotel is clean, convenient and good value for money. Staff are courteous and helpful. However, they need more training to be efficient.</p>
+												<ul>
+													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+												</ul>
+											</div>
+										</li>
+										<li>
+											<div class="lr-user-wr-img"> <img src="images/users/4.png" alt=""> </div>
+											<div class="lr-user-wr-con lr-user-wr-con-block">
+												<h6>Luke Mason <span>4.2 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th March, 2018</span>
+												<p>Too much good experience with hospitality, cleanliness, facility and privacy and good value for money... To keep mind relaxing... Keep it up... </p>
+												<ul>
+													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+												</ul>
+											</div>
+										</li>
+										<li>
+											<div class="lr-user-wr-img"> <img src="images/users/5.png" alt=""> </div>
+											<div class="lr-user-wr-con lr-user-wr-con-block">
+												<h6>Kevin Jack <span>3.6 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th Aug, 2018</span>
+												<p>I am deaf. Bar is closed and Restaurant is okay ... It should be more decoration as beautiful. I enjoyed swimming top floor and weather is good</p>
+												<ul>
+													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+												</ul>
+											</div>
+										</li>
+										<li>
+											<div class="lr-user-wr-img"> <img src="images/users/6.png" alt=""> </div>
+											<div class="lr-user-wr-con lr-user-wr-con-block">
+												<h6>Nicholas Tyler <span>4.4 <i class="fa fa-star" aria-hidden="true"></i></span></h6> <span class="lr-revi-date">21th Aug, 2018</span>
+												<p>Overall, it was good experience. Rooms were spacious and they were kept very clean and tidy. Room service was good.</p>
+												<ul>
+													<li><a href="#!"><span>Like</span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Dis-Like</span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Report</span> <i class="fa fa-flag-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Comments</span> <i class="fa fa-commenting-o" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><span>Share Now</span>  <i class="fa fa-facebook" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-google-plus" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-twitter" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-linkedin" aria-hidden="true"></i></a> </li>
+													<li><a href="#!"><i class="fa fa-youtube" aria-hidden="true"></i></a> </li>
+												</ul>
+											</div>
+										</li>
+									</ul> <a class="waves-effect waves-light wr-re-btn" href="%21.html#" data-toggle="modal" data-target="#commend"><i class="fa fa-edit"></i> Write Review</a> </div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<!--=========================================-->
+						<div class="hp-call hp-right-com hp-right-com-block">
+							<div class="hp-call-in"> <img src="images/icon/dbc4.png" alt="">
+								<h3><span>Check Availability. Call us!</span> +01 4214 4214</h3> <small>We are available 24/7 Monday to Sunday</small> <a href="#">Call Now</a> </div>
+						</div>
+						<!--=========================================-->
+						<!--=========================================-->
+						<div class="hp-book hp-right-com hp-right-com-block">
+							<div class="hp-book-in">
+								<button class="like-button"><i class="fa fa-heart-o"></i> Bookmark this listing</button> <span>159 people bookmarked this place</span>
+								<ul>
+									<li><a href="#"><i class="fa fa-facebook"></i> Share</a>
+									</li>
+									<li><a href="#"><i class="fa fa-twitter"></i> Tweet</a>
+									</li>
+									<li><a href="#"><i class="fa fa-google-plus"></i> Share</a>
+									</li>
+									<!-- <li><a class="pinterest-share" href="#"><i class="fa fa-pinterest-p"></i> Pin</a></li> -->
+								</ul>
+							</div>
+						</div>
+						<!--=========================================-->
+						<!--=========================================-->
+						<div class="hp-card hp-right-com hp-right-com-block">
+							<div class="hp-card-in">
+								<h3>We Accept</h3> <span>159 people bookmarked this place</span> <img src="images/card.png" alt=""> </div>
+						</div>
+						<!--=========================================-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#booking-form');
+    const submitButton = form.querySelector('.form-btn');
+    const submitButtonText = submitButton.value; // Save the original button text
+    const messageArea = document.getElementById('response-message'); // For displaying success or error messages
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        // Disable the submit button and show "Submitting..."
+        submitButton.disabled = true;
+        submitButton.value = 'Submitting...';
+
+        // Get CSRF token value from the form
+        const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+
+        // Create a FormData object to easily get form data
+        const formData = new FormData(form);
+
+        // Add CSRF token to the request headers
+        const headers = new Headers();
+        headers.append('X-CSRFToken', csrfToken);
+		const bookingUrl = "{% url 'book_reservation_listing' %}";
+        // Use Fetch API to send data via POST
+        fetch(bookingUrl, {  // Change to your Django view URL
+            method: 'POST',
+            body: formData,
+            headers: headers  // Send the CSRF token with the request
+        })
+        .then(response => response.json()) // Assuming the response is in JSON format
+        .then(data => {
+            if (data.success) {
+                messageArea.innerHTML = '<p class="alert alert-success">Booking successfully submitted!</p>';
+                form.reset();  // Reset the form if needed
+            } else {
+                messageArea.innerHTML = `<p class="alert alert-danger">${data.error}</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            messageArea.innerHTML = '<p class="alert alert-danger">Something went wrong. Please try again later.</p>';
+        })
+        .finally(() => {
+            // Re-enable the submit button and reset text
+            submitButton.disabled = false;
+            submitButton.value = submitButtonText;
+        });
+    });
+});
+</script>
+
+
+{% endblock %}
