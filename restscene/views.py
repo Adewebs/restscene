@@ -6,8 +6,16 @@ from datetime import datetime
 from django.core.paginator import Paginator
 # Create your views here.
 
+#TODO
+#search facilities for filtering accomodations in place of the quick booking form @index
+#update the apartment listing based on the search params
+#blockout request that is not aunthenitcated
+#search params (booking data and checkout date)
+#filter base on checking and checkout data
 
 def homepageapp(request):
+
+
     if request.method == "POST":
         user_country = request.POST.get('country')
         request.session['user_country'] = user_country
@@ -153,3 +161,30 @@ def book_reservation_listing(request):
             return JsonResponse({'success': False, 'error': str(e)})
 
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+
+def contact_us(request):
+    user_country = request.session.get('user_country', 'US')
+
+
+    context = {
+        'pagetitle': "RestScene | Contact US",
+
+        'user_country': user_country,
+
+    }
+
+    return render(request, 'landing/contactus.html', context)
+
+
+def about_us(request):
+    user_country = request.session.get('user_country', 'US')
+
+    context = {
+        'pagetitle': "RestScene | Contact US",
+
+        'user_country': user_country,
+
+    }
+
+    return render(request, 'landing/aboutus.html', context)
